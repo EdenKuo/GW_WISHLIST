@@ -88,8 +88,10 @@ wrangler.toml              本地開發設定（正式環境綁定在 Cloudflare
 | 變數名稱 | 值 | 說明 |
 |---|---|---|
 | `GOOGLE_CLIENT_ID` | 步驟 4 拿到的 Client ID | 用來驗證登入者是否為合法 Google 帳號 |
-| `ADMIN_EMAILS` | 例如 `you@gmail.com`（多個 email 用逗號分隔） | 白名單，只有這些 email 能進後台 |
+| `ADMIN_EMAILS` | `caring841111@gmail.com` | 白名單，只有這裡列出的 email 能進後台；多個 email 用逗號分隔（例如 `caring841111@gmail.com,other@example.com`） |
 | `SESSION_SECRET` | 自訂一長串隨機字串（例如 32 個以上的英數字），並設為 **Encrypt** | 用來加密簽署後台登入的憑證，請妥善保管、不要外流 |
+
+日後若要新增其他管理員帳號，直接把新 email 加進 `ADMIN_EMAILS`（用逗號分隔多個），存檔後照下面步驟重新部署即可，不需要改任何程式碼。
 
 設定完成後，回到 **Deployments** 分頁，對最新的部署點 **Retry deployment**（或直接推一次新的 commit），讓新的環境變數與 D1 綁定生效。
 
