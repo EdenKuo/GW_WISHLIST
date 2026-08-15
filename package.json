@@ -2,17 +2,17 @@
   "name": "gw-wishlist",
   "private": true,
   "version": "1.0.0",
-  "description": "財鯨動向 聽眾投稿平台（Cloudflare Pages + D1）",
+  "description": "財鯨動向 聽眾投稿平台（Cloudflare Workers + Static Assets + D1）",
   "dependencies": {
     "jose": "^5.2.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240925.0",
+    "@cloudflare/workers-types": "^5.0.0",
     "typescript": "^5.6.2",
-    "wrangler": "^3.78.10"
+    "wrangler": "^4.0.0"
   },
   "scripts": {
-    "dev": "wrangler pages dev public",
-    "deploy": "wrangler pages deploy public"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   }
 }
