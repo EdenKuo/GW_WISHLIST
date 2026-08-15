@@ -12,6 +12,7 @@ const wallList = document.getElementById("wall-list");
 
 const LIKED_STORAGE_KEY = "gw-wishlist-liked";
 const AVATAR_COLORS = ["#1f4b5f", "#8a5a44", "#5a6b8a", "#6b7a3f", "#8a4a6b", "#4a7a7a"];
+const STATUS_LABELS = { read: "被唸過", replied: "已回覆" };
 
 let currentSort = "recent";
 
@@ -157,6 +158,14 @@ function renderWallItem(item, likedIds) {
   timeEl.textContent = formatTime(item.created_at);
 
   topRow.appendChild(nameEl);
+
+  if (item.status && item.status !== "pending") {
+    const statusEl = document.createElement("span");
+    statusEl.className = "status-badge";
+    statusEl.textContent = STATUS_LABELS[item.status] || item.status;
+    topRow.appendChild(statusEl);
+  }
+
   topRow.appendChild(timeEl);
 
   const bodyContentEl = document.createElement("div");

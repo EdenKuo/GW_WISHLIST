@@ -248,6 +248,15 @@ button:disabled {
   font-size: 0.9rem;
 }
 
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .wall-item-time {
   color: var(--color-muted);
   font-size: 0.78rem;

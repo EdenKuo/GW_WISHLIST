@@ -179,7 +179,7 @@ async function handlePublicListSubmissions(request: Request, env: Env): Promise<
     sort === "popular" ? "ORDER BY likes_count DESC, created_at DESC" : "ORDER BY created_at DESC";
 
   const result = await env.DB.prepare(
-    `SELECT id, content, nickname, likes_count, created_at
+    `SELECT id, content, nickname, likes_count, status, created_at
      FROM submissions
      ${where}
      ${orderBy}
