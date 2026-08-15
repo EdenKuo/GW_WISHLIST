@@ -72,17 +72,13 @@ wrangler.toml              Worker 設定（main、assets、D1 綁定；正式環
 
 ### 步驟 5：設定環境變數
 
-在專案的 **Bindings** 或 **Settings** 分頁（依畫面而定，通常會有 Variables/Secrets 相關區塊），新增以下三個變數：
+**重要**：這個專案是透過 GitHub 自動部署（Workers Builds），每次部署都是照 `wrangler.toml` 裡的設定為準，在 Cloudflare Dashboard 的 Settings 頁面手動加的變數會被忽略、不會生效。所以：
 
-| 變數名稱 | 值 | 說明 |
-|---|---|---|
-| `GOOGLE_CLIENT_ID` | 步驟 4 拿到的 Client ID | 用來驗證登入者是否為合法 Google 帳號 |
-| `ADMIN_EMAILS` | `caring841111@gmail.com` | 白名單，只有這裡列出的 email 能進後台；多個 email 用逗號分隔（例如 `caring841111@gmail.com,other@example.com`） |
-| `SESSION_SECRET` | 自訂一長串隨機字串（例如 32 個以上的英數字），並設為 **Secret**（加密） | 用來加密簽署後台登入的憑證，請妥善保管、不要外流 |
+- **非機密的值**（`GOOGLE_CLIENT_ID`、`ADMIN_EMAILS`）已經直接寫在 `wrangler.toml` 的 `[vars]` 區塊裡，跟著程式碼一起部署，不需要在 Dashboard 另外設定
+- 日後若要新增管理員帳號，或 Google Client ID 有變動，直接編輯 `wrangler.toml` 裡 `[vars]` 底下對應的值，commit、push 即可生效，不需要改動其他程式碼
+- **機密值**（`SESSION_SECRET`）則要在 Dashboard 設定：進入專案 **Settings > Variables and secrets**，新增一筆 **Secret** 類型，名稱 `SESSION_SECRET`，值自訂一長串隨機字串（例如 32 個以上的英數字），存檔
 
-日後若要新增其他管理員帳號，直接把新 email 加進 `ADMIN_EMAILS`（用逗號分隔多個），存檔後重新部署即可，不需要改任何程式碼。
-
-設定完成後，回到 **Deployments** 分頁，重新觸發一次部署（Retry 或推一次新的 commit），讓新的環境變數與 D1 綁定生效。
+設定完成後，回到 **Deployments** 分頁，確認有觸發新的部署（沒有的話手動 Retry 或推一次新的 commit）。
 
 ### 步驟 6：驗收（工單第一階段標準）
 
