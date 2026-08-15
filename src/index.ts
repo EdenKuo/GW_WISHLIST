@@ -32,6 +32,11 @@ export default {
         return handlePublicListSubmissions(request, env);
       }
 
+      const likeMatch = path.match(/^\/api\/submissions\/(\d+)\/like$/);
+      if (likeMatch && request.method === "POST") {
+        return handleLikeSubmission(request, env, Number(likeMatch[1]));
+      }
+
       if (path === "/api/admin/login" && request.method === "POST") {
         return handleAdminLogin(request, env);
       }
@@ -158,6 +163,7 @@ async function handleCreateSubmission(request: Request, env: Env): Promise<Respo
 async function handlePublicListSubmissions(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const q = (url.searchParams.get("q") ?? "").trim().slice(0, 100);
+  const sort = url.searchParams.get("sort") === "popular" ? "popular" : "recent";
 
   const conditions: string[] = ["hidden = 0"];
   const params: unknown[] = [];
@@ -169,12 +175,14 @@ async function handlePublicListSubmissions(request: Request, env: Env): Promise<
   }
 
   const where = `WHERE ${conditions.join(" AND ")}`;
+  const orderBy =
+    sort === "popular" ? "ORDER BY likes_count DESC, created_at DESC" : "ORDER BY created_at DESC";
 
   const result = await env.DB.prepare(
-    `SELECT id, content, nickname, created_at
+    `SELECT id, content, nickname, likes_count, created_at
      FROM submissions
      ${where}
-     ORDER BY created_at DESC
+     ${orderBy}
      LIMIT 200`
   )
     .bind(...params)
@@ -185,6 +193,39 @@ async function handlePublicListSubmissions(request: Request, env: Env): Promise<
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, (char) => `\\${char}`);
+}
+
+async function handleLikeSubmission(request: Request, env: Env, id: number): Promise<Response> {
+  const submission = await env.DB.prepare(
+    `SELECT id FROM submissions WHERE id = ? AND hidden = 0`
+  )
+    .bind(id)
+    .first();
+
+  if (!submission) {
+    return json({ ok: false, error: "找不到這則留言" }, 404);
+  }
+
+  const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
+  const ipHash = await hashIp(ip, env.SESSION_SECRET);
+
+  const insertResult = await env.DB.prepare(
+    `INSERT INTO likes (submission_id, ip_hash) VALUES (?, ?) ON CONFLICT DO NOTHING`
+  )
+    .bind(id, ipHash)
+    .run();
+
+  if (insertResult.meta.changes > 0) {
+    await env.DB.prepare(`UPDATE submissions SET likes_count = likes_count + 1 WHERE id = ?`)
+      .bind(id)
+      .run();
+  }
+
+  const updated = await env.DB.prepare(`SELECT likes_count FROM submissions WHERE id = ?`)
+    .bind(id)
+    .first<{ likes_count: number }>();
+
+  return json({ ok: true, likes_count: updated?.likes_count ?? 0 });
 }
 
 async function hashIp(ip: string, secret: string): Promise<string> {

@@ -175,6 +175,33 @@ button:disabled {
   outline-offset: 1px;
 }
 
+.sort-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sort-tab {
+  width: auto;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sort-tab:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+.sort-tab.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
 .wall-list {
   display: flex;
   flex-direction: column;
@@ -182,21 +209,87 @@ button:disabled {
 }
 
 .wall-item {
+  display: flex;
+  gap: 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 16px;
 }
 
+.avatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.wall-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.wall-item-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.wall-item-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.wall-item-time {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
 .wall-item-content {
   white-space: pre-wrap;
   word-break: break-word;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-.wall-item-meta {
+.like-btn {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
   color: var(--color-muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.like-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.like-btn.liked {
+  color: #c23b5a;
+  border-color: #f3c6d1;
+  background: #fdf0f3;
+}
+
+.like-btn:disabled {
+  cursor: default;
+}
+
+.like-icon {
+  font-size: 0.95rem;
 }
 
 .loading,

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   status TEXT NOT NULL DEFAULT 'pending', -- pending=未處理 / read=已念過 / replied=已回覆
   episode TEXT,                            -- 例如 'EP.45'
   hidden INTEGER NOT NULL DEFAULT 0,       -- 0=顯示 / 1=已隱藏（軟刪除）
+  likes_count INTEGER NOT NULL DEFAULT 0,  -- 前台留言牆按讚數
   client_ip_hash TEXT,                     -- 投稿來源 IP 的雜湊值，僅用於防洗版，不存原始 IP
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -19,3 +20,14 @@ CREATE INDEX IF NOT EXISTS idx_submissions_episode ON submissions(episode);
 CREATE INDEX IF NOT EXISTS idx_submissions_hidden ON submissions(hidden);
 CREATE INDEX IF NOT EXISTS idx_submissions_created_at ON submissions(created_at);
 CREATE INDEX IF NOT EXISTS idx_submissions_ip_hash ON submissions(client_ip_hash);
+CREATE INDEX IF NOT EXISTS idx_submissions_likes_count ON submissions(likes_count);
+
+-- 記錄誰按過讚（以 IP 雜湊防止同一來源重複洗讚），不記錄原始 IP
+CREATE TABLE IF NOT EXISTS likes (
+  submission_id INTEGER NOT NULL,
+  ip_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (submission_id, ip_hash)
+);
+
+CREATE INDEX IF NOT EXISTS idx_likes_submission ON likes(submission_id);
