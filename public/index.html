@@ -42,6 +42,17 @@
     </form>
 
     <div id="result" class="result" role="status" hidden></div>
+
+    <section class="wall">
+      <div class="wall-header">
+        <h2>大家的留言</h2>
+        <input type="search" id="search" class="search" placeholder="搜尋留言內容或暱稱…" maxlength="100">
+      </div>
+
+      <div id="wall-loading" class="loading" hidden>載入中…</div>
+      <div id="wall-empty" class="empty" hidden>還沒有留言，來當第一個吧！</div>
+      <div id="wall-list" class="wall-list"></div>
+    </section>
   </main>
 
   <script src="/app.js"></script>

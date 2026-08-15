@@ -28,6 +28,10 @@ export default {
         return handleCreateSubmission(request, env);
       }
 
+      if (path === "/api/submissions" && request.method === "GET") {
+        return handlePublicListSubmissions(request, env);
+      }
+
       if (path === "/api/admin/login" && request.method === "POST") {
         return handleAdminLogin(request, env);
       }
@@ -149,6 +153,38 @@ async function handleCreateSubmission(request: Request, env: Env): Promise<Respo
     .run();
 
   return json({ ok: true });
+}
+
+async function handlePublicListSubmissions(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url);
+  const q = (url.searchParams.get("q") ?? "").trim().slice(0, 100);
+
+  const conditions: string[] = ["hidden = 0"];
+  const params: unknown[] = [];
+
+  if (q) {
+    conditions.push("(content LIKE ? ESCAPE '\\' OR nickname LIKE ? ESCAPE '\\')");
+    const like = `%${escapeLike(q)}%`;
+    params.push(like, like);
+  }
+
+  const where = `WHERE ${conditions.join(" AND ")}`;
+
+  const result = await env.DB.prepare(
+    `SELECT id, content, nickname, created_at
+     FROM submissions
+     ${where}
+     ORDER BY created_at DESC
+     LIMIT 200`
+  )
+    .bind(...params)
+    .all();
+
+  return json({ ok: true, submissions: result.results });
+}
+
+function escapeLike(value: string): string {
+  return value.replace(/[\\%_]/g, (char) => `\\${char}`);
 }
 
 async function hashIp(ip: string, secret: string): Promise<string> {
