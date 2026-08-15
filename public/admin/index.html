@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投稿管理｜財鯨動向</title>
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <h1>財鯨動向｜投稿管理</h1>
+    <button id="logout-btn" class="btn-secondary">登出</button>
+  </header>
+
+  <main class="admin-main">
+    <div class="filters">
+      <label>
+        狀態
+        <select id="filter-status">
+          <option value="">全部</option>
+          <option value="pending">未處理</option>
+          <option value="read">已念過</option>
+          <option value="replied">已回覆</option>
+        </select>
+      </label>
+      <label>
+        集數
+        <input type="text" id="filter-episode" placeholder="例如 EP.45">
+      </label>
+      <button id="refresh-btn" class="btn-secondary">重新整理</button>
+    </div>
+
+    <div id="loading" class="loading" hidden>載入中…</div>
+    <div id="empty" class="empty" hidden>目前沒有符合條件的投稿</div>
+
+    <div id="list" class="submission-list"></div>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

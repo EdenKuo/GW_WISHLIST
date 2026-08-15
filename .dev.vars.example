@@ -1,0 +1,8 @@
+# 本地開發用環境變數範例。
+# 複製這個檔案為 .dev.vars（不會被 git 追蹤），並填入你自己的測試值。
+# 正式環境的變數請在 Cloudflare Pages 專案的
+# Settings > Environment variables 內設定，與這個檔案無關。
+
+GOOGLE_CLIENT_ID=你的Google_OAuth_Client_ID
+ADMIN_EMAILS=admin1@example.com,admin2@example.com
+SESSION_SECRET=一串隨機且夠長的密碼字串
