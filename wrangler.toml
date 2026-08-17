@@ -6,7 +6,6 @@ compatibility_date = "2024-09-25"
 directory = "./public"
 binding = "ASSETS"
 run_worker_first = true
-html_handling = "none"
 
 # 非機密設定值：直接寫在這裡，確保透過 GitHub 自動部署時一定會生效
 # （Dashboard 上手動加的環境變數在這個部署流程下不會套用，只有這個檔案是依據）。

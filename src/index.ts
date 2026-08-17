@@ -68,8 +68,13 @@ export default {
       }
 
       if (path.startsWith("/admin/")) {
+        // Static Assets 預設會把 /admin/login.html 轉址成 /admin/login（去除副檔名），
+        // 兩種形式都要視為公開頁面，否則會跟資產轉址互相跳轉造成無限迴圈。
         const isPublicAdminAsset =
-          path === "/admin/login.html" || path.endsWith(".css") || path.endsWith(".js");
+          path === "/admin/login.html" ||
+          path === "/admin/login" ||
+          path.endsWith(".css") ||
+          path.endsWith(".js");
 
         if (!isPublicAdminAsset) {
           const session = await verifySessionCookie(
@@ -77,7 +82,7 @@ export default {
             env.SESSION_SECRET
           );
           if (!session || !isWhitelisted(session.email, env.ADMIN_EMAILS)) {
-            return Response.redirect(new URL("/admin/login.html", url), 302);
+            return Response.redirect(new URL("/admin/login", url), 302);
           }
         }
       }
