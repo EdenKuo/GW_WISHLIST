@@ -35,6 +35,15 @@ body {
   margin-bottom: 32px;
 }
 
+.eyebrow {
+  text-align: center;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 12px;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
