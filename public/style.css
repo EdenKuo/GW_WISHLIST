@@ -36,15 +36,32 @@ body {
   margin-bottom: 32px;
 }
 
+.eyebrow {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 8px;
+}
+
 .header h1 {
   font-size: 1.75rem;
-  margin: 0 0 8px;
+  margin: 0 0 16px;
 }
 
 .subtitle {
   color: var(--color-muted);
   margin: 0;
   font-size: 0.95rem;
+}
+
+.intro {
+  color: var(--color-muted);
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  text-align: left;
+  display: inline-block;
 }
 
 .form {
