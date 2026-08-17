@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鯨朝有解，鯨朝睡｜站內投稿</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <p class="eyebrow">鯨朝有解，鯨朝睡｜站內投稿</p>
+      <h1 class="visually-hidden">今晚，有什麼想不通的？有些問題，一個人想會失眠，不如丟過來，我們一起想，今朝有解，今晚就好睡了</h1>
+      <picture>
+        <source srcset="/hero-banner.webp" type="image/webp">
+        <img
+          src="/hero-banner.jpg"
+          alt="今晚，有什麼想不通的？有些問題，一個人想會失眠，不如丟過來，我們一起想，今朝有解，今晚就好睡了"
+          class="hero-banner"
+        >
+      </picture>
+    </header>
+
+    <form id="submission-form" class="form" novalidate>
+      <div class="field">
+        <label for="content">留言內容 <span class="required">*</span></label>
+        <textarea
+          id="content"
+          name="content"
+          maxlength="500"
+          rows="6"
+          placeholder="來吧，最近在想什麼？
+人生選擇、工作煩惱、想許願的，都可以"
+          required
+        ></textarea>
+        <div class="counter"><span id="char-count">0</span>/500</div>
+      </div>
+
+      <div class="field">
+        <label for="nickname">暱稱（選填）</label>
+        <input type="text" id="nickname" name="nickname" maxlength="50" placeholder="想匿名的話，就空著吧！">
+      </div>
+
+      <!-- honeypot：一般使用者看不到，機器人才會填 -->
+      <div class="honeypot" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" id="submit-btn">送出投稿</button>
+    </form>
+
+    <div id="result" class="result" role="status" hidden></div>
+
+    <section class="wall">
+      <div class="wall-header">
+        <h2>大家最近在想什麼？</h2>
+      </div>
+
+      <input type="search" id="search" class="search" placeholder="找找看，你的留言有沒有被唸到？" maxlength="100">
+
+      <div class="sort-tabs" role="tablist">
+        <button type="button" class="sort-tab active" data-sort="recent">最新留言</button>
+        <button type="button" class="sort-tab" data-sort="popular">熱門</button>
+      </div>
+
+      <div id="wall-loading" class="loading" hidden>載入中…</div>
+      <div id="wall-empty" class="empty" hidden>還沒有留言，來當第一個吧！</div>
+      <div id="wall-list" class="wall-list"></div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
